@@ -1,13 +1,14 @@
 from flask import Flask
+from flask import render_template
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Running the tool!'
+def index(color = "green"):
+    return render_template('index.html', color=color)
 
-@app.route('/hello')
-def hello():
-    return 'In a hello function now.'
+@app.route('/about')
+def about():
+    return 'Andy Satchwell, Nathan Addy, Andrew Sturges.'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True) #disable this before pushing to production
