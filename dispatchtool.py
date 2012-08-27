@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index(color = "green"):
-    return render_template('index.html', color=color)
+    return render_template('layout.html', color=color)
 
 @app.route('/about')
 def about():
