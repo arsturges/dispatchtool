@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>The Demand Response Dispatch Tool</title>
+    <title>The Demand Response Dispatch Tool -- {{title}}</title>
   </head>
   <body>
 		<div id="content">
-			{% include "header.html" %}
-			<p>This is after the end of the 'content' block, back in 'layou.html'. The color is {{ color }}.</p>
+			{% block header %}
+				{% include "header.html" %}
+			{% endblock header %}
+			{% block main %}
+				<p>You are in the main block. This content from 'layout.html'. If you can read this paragraph, it has not been overwritten by a child template.</p>
+			{% endblock main %}
 		</div><!-- content -->
 		<footer>
-			{% include "footer.html" %}
-			<p>This is after the end of the 'footer' block, still in 'layout.html'</p>
+			{% block footer %}
+				{% include "footer.html" %}
+			{% endblock footer %}
 		</footer>
   </body>
 </html>
