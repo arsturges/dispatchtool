@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <title>The Demand Response Dispatch Tool -- {{title}}</title>
+		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" />
   </head>
-  <body>
+  <body class="container">
 		<div id="content">
 			{% block header %}
 				{% include "header.html" %}
