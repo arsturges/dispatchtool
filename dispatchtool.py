@@ -11,15 +11,27 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/', methods = ['GET','POST'])
+@app.route('/')
 def index():
+  return render_template('home.html', title = "Home") 
+
+@app.route('/get_started', methods = ['GET','POST'])
+def get_started():
 	if request.method == 'POST':
 		file = request.files['file']
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			return redirect(url_for('uploaded_file',filename=filename))
-	return render_template('home.html', title="Home")
+	return render_template('get_started.html', title="Get Started")
+
+def calculate_dr(file,algorithm="original", maximize="cost_savings"):
+	'''
+	file: LMPs
+	algorithm: see templates/algorithms.html
+	maximize: cost_savings, kwh_savings
+	'''
+	pass
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
