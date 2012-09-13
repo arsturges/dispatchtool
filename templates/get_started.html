@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block main %}
+<h2>Get Started</h2>
+<form action="" method=post enctype=multipart/form-data>
+	<legend>Upload a new ProMod file</legend>
+	<p><input type=file name=file></p>
+		<input type=submit value="Calculate Demand Response" class="btn btn-primary">
+</form>
+<pre>File: {{ request.files['file'].filename if request.files else 'no file uploaded' }}</pre>
+{% endblock %}

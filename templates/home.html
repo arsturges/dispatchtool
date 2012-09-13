@@ -1,10 +1,22 @@
 {% extends "layout.html" %}
 {% block main %}
-<p class="hero-unit">Welcome to the Demand Response Dispatch Tool. We are providing technical assistance to the Western Interconnect (WECC) with transmission and generation expansion planning.  Part of our work is in developing estimates of demand response (DR) resource levels and then helping WECC model them within their production cost models and generation expansion tools.  We have made major progress in the past two years in institutionalizing a more realistic dispatch approach for economic DR resources in WECC.</p>
-<h2>Get Started</h2>
-<form action="" method=post enctype=multipart/form-data>
-	<p><input type=file name=file></p>
-		<input type=submit value=Upload>
-</form>
-<pre>File: {{ request.files['file'].filename if request.files else 'no file uploaded' }}</pre>
+<div class="hero-unit">
+	<p>Welcome to the Demand Response Dispatch Tool. We are providing technical assistance to the Western Interconnect (WECC) with transmission and generation expansion planning.  Part of our work is in developing estimates of demand response (DR) resource levels and then helping WECC model them within their production cost models and generation expansion tools.  We have made major progress in the past two years in institutionalizing a more realistic dispatch approach for economic DR resources in WECC.</p>
+	<p><a class="btn btn-success btn-large" href="/get_started">Get Started &raquo;</a></p>
+</div>
+
+<div class="row">
+	<div class="span4">
+		<h2>Step 1</h2>
+		<p>Use the software of your choice to produce a .csv or .txt file with locational marginal prices (LMPs).</p>
+  </div>
+  <div class="span4">
+  	<h2>Step 2</h2>
+    <p>Import the file the to the Demand Response Dispatch Tool to produce an 8760-hour output file listing demand response opportunities.</p>
+  </div>
+  <div class="span4">
+  	<h2>Step 3</h2>
+   	<p>Use the new file as input to your original software.</p>
+	</div>
+</div>
 {% endblock %}
