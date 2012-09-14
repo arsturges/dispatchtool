@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, redirect, render_template, url_for, send_from_directory
 from werkzeug import secure_filename 
+from dr_dispatch_wrapper import run_dr_dispatch
 
 UPLOAD_FOLDER = 'user_uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
@@ -22,6 +23,13 @@ def get_started():
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			print "-"*50
+			print os.path.abspath(os.path.curdir)
+			run_dr_dispatch(
+				"user_uploads/WECC_Common Case Reference DR.csv",
+				"user_uploads/WECC_Common Case LMPs_20120130.csv",
+				"user_uploads/WECC_Hourly Energy Load.csv",
+				"Inflexible")
 			return redirect(url_for('uploaded_file',filename=filename))
 	return render_template('get_started.html', title="Get Started")
 
