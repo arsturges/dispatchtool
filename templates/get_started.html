@@ -2,9 +2,15 @@
 {% block main %}
 <h2>Get Started</h2>
 <form action="" method=post enctype=multipart/form-data>
-	<legend>Upload a new ProMod file</legend>
-	<p><input type=file name=file></p>
+	<legend>Upload Input Files</legend>
+	<p>LMPs:<input type=file name=lmps></p>
+	<p>DR:<input type=file name=dr></p>
+	<p>Energy Load:<input type=file name=load></p>
 		<input type=submit value="Calculate Demand Response" class="btn btn-primary">
 </form>
-<pre>File: {{ request.files['file'].filename if request.files else 'no file uploaded' }}</pre>
+<pre>
+LMPs: {{ request.files['lmps'].filename if request.files else 'no file uploaded' }}
+DR: {{ request.files['dr'].filename if request.files else 'no file uploaded' }}
+Energy Load: {{ request.files['load'].filename if request.files else 'no file uploaded' }}
+</pre>
 {% endblock %}

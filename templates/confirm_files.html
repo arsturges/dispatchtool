@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block main %}
+<h2>Confirm Files</h2>
+<pre>
+LMPs: {{ request.files['lmps'].filename if request.files else 'no file uploaded' }}
+DR: {{ request.files['dr'].filename if request.files else 'no file uploaded' }}
+Energy Load: {{ request.files['load'].filename if request.files else 'no file uploaded' }}
+</pre>
+{% endblock %}

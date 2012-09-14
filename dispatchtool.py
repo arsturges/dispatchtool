@@ -19,31 +19,30 @@ def index():
 @app.route('/get_started', methods = ['GET','POST'])
 def get_started():
 	if request.method == 'POST':
-		file = request.files['file']
+		print request.files['lmps'].filename
+		print request.files['dr'].filename
+		print request.files['load'].filename
+		file = request.files['lmps']
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			print "-"*50
-			print os.path.abspath(os.path.curdir)
+			print filename
 			run_dr_dispatch(
 				"user_uploads/WECC_Common Case Reference DR.csv",
 				"user_uploads/WECC_Common Case LMPs_20120130.csv",
 				"user_uploads/WECC_Hourly Energy Load.csv",
 				"Inflexible")
-			return redirect(url_for('uploaded_file',filename=filename))
-	return render_template('get_started.html', title="Get Started")
-
-def calculate_dr(file,algorithm="original", maximize="cost_savings"):
-	'''
-	file: LMPs
-	algorithm: see templates/algorithms.html
-	maximize: cost_savings, kwh_savings
-	'''
-	pass
+			return render_template('confirm_files.html',title="Confirm Files Submission")
+	else:
+		return render_template('get_started.html', title="Get Started")
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
 	return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/confirm_files')
+def confirm_files(lmps, dr, load): 
+	return render_template('confirm_files.html', title = "Confirm Files")
 
 @app.route('/help')
 def help():
