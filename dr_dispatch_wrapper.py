@@ -7,14 +7,14 @@ if path not in sys.path:
 import DRD
 
 def generateID():
-     #return "ID_" + str(uuid.uuid1().int)
+     return "ID_" + str(uuid.uuid1().int)
 
 def run_dr_dispatch(
     reference_dr_filename,
     lmp_filename,
     energy_load_data_filename,
     algorithm):
-    
+
     user_id = generateID()
     output_dir = "/home/andrew/dispatchtool/tmp"
 
