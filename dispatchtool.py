@@ -8,6 +8,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 # 5 megabyte max upload size
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
@@ -22,15 +23,15 @@ def get_started():
         print request.files['lmps'].filename
         print request.files['dr'].filename
         print request.files['load'].filename
-        file = request.files['lmps']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        lmp_file = request.files['lmps']
+        if lmp_file and allowed_file(lmp_file.filename):
+            filename = secure_filename(lmp_file.filename)
+            lmp_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             print filename
             run_dr_dispatch(
-                "user_uploads/WECC_Common Case Reference DR.csv",
-                "user_uploads/WECC_Common Case LMPs_20120130.csv",
-                "user_uploads/WECC_Hourly Energy Load.csv",
+                "/home/andrew/dr_dispatch/data/WECC_Common Case Reference DR.csv",
+                "/home/andrew/dr_dispatch/data/WECC_Common Case LMPs_20120130.csv",
+                "/home/andrew/dr_dispatch/data/WECC_Hourly Energy Load.csv",
                 "Inflexible")
             return render_template('confirm_files.html',title="Confirm Files Submission")
     else:

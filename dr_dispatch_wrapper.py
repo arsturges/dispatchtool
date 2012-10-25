@@ -6,15 +6,15 @@ if path not in sys.path:
     sys.path.insert(0,path)
 import DRD
 
+def generateID():
+     #return "ID_" + str(uuid.uuid1().int)
+
 def run_dr_dispatch(
     reference_dr_filename,
     lmp_filename,
     energy_load_data_filename,
     algorithm):
     
-    def generateID():
-         return "ID_" + str(uuid.uuid1().int)
-
     user_id = generateID()
     output_dir = "/home/andrew/dispatchtool/tmp"
 
@@ -50,8 +50,8 @@ def run_dr_dispatch(
 
 if __name__ == "__main__":
     run_dr_dispatch(
-        "/user_uploads/WECC_Common Case Reference DR.csv",
-        "/user_uploads/WECC_Common Case LMPs_20120130.csv",
-        "/user_uploads/WECC_Hourly Energy Load.csv",
+        "user_uploads/WECC_Common Case Reference DR.csv",
+        "user_uploads/WECC_Common Case LMPs_20120130.csv",
+        "user_uploads/WECC_Hourly Energy Load.csv",
         "Inflexible"
         )
