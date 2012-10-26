@@ -1,18 +1,15 @@
 import os
 from flask import Flask, request, redirect, render_template, url_for, send_from_directory
 from werkzeug import secure_filename 
-from dr_dispatch_wrapper import run_dr_dispatch
+import helper_methods
 
-UPLOAD_FOLDER = 'user_uploads'
+UPLOAD_FOLDER = '/home/andrew/dispatchtool/user_uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 # 5 megabyte max upload size
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
-
+        
 @app.route('/')
 def index():
     return render_template('home.html', title = "Home") 
@@ -20,18 +17,39 @@ def index():
 @app.route('/get_started', methods = ['GET','POST'])
 def get_started():
     if request.method == 'POST':
-        print request.files['lmps'].filename
-        print request.files['dr'].filename
-        print request.files['load'].filename
+        # establish the 'user-uploaded' fles and a unique string
+        # to temporarily store them on the server:
         lmp_file = request.files['lmps']
-        if lmp_file and allowed_file(lmp_file.filename):
-            filename = secure_filename(lmp_file.filename)
-            lmp_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print filename
-            run_dr_dispatch(
-                "/home/andrew/dr_dispatch/data/WECC_Common Case Reference DR.csv",
-                "/home/andrew/dr_dispatch/data/WECC_Common Case LMPs_20120130.csv",
-                "/home/andrew/dr_dispatch/data/WECC_Hourly Energy Load.csv",
+        dr_file = request.files['dr']
+        load_file = request.files['load']
+        uuid_string = helper_methods.generateID()
+
+        if lmp_file and dr_file and load_file and helper_methods.allowed_files(
+                ALLOWED_EXTENSIONS, 
+                lmp_file.filename,
+                dr_file.filename,
+                load_file.filename):
+            # establish filenames to save the 'user' files on the server:
+            lmp_server_filename = secure_filename(uuid_string + lmp_file.filename)
+            dr_server_filename = secure_filename(uuid_string + dr_file.filename)
+            load_server_filename = secure_filename(uuid_string + load_file.filename)
+
+            # save the 'user' files to server using those 'server' filenames:
+            lmp_file.save(os.path.join(app.config['UPLOAD_FOLDER'], lmp_server_filename))
+            dr_file.save(os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename))
+            load_file.save(os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename))
+            # run the algorithm using the three files you just saved to the server:
+            full_path_1 = os.path.join("/home/andrew/dispatchtool/user_uploads", lmp_server_filename)
+            full_path_2 = os.path.join("/home/andrew/dispatchtool/user_uploads", dr_server_filename)
+            full_path_3 = os.path.join("/home/andrew/dispatchtool/user_uploads", load_server_filename)
+            print full_path_1
+            print full_path_2
+            print full_path_3
+            
+            helper_methods.run_dr_dispatch(
+                full_path_2,
+                full_path_1,
+                full_path_3,
                 "Inflexible")
             return render_template('confirm_files.html',title="Confirm Files Submission")
     else:
