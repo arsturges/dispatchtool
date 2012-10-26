@@ -16,7 +16,7 @@ def run_dr_dispatch(
     algorithm):
 
     user_id = generateID()
-    output_dir = "/home/andrew/dispatchtool/tmp"
+    output_dir = os.path.abspath('tmp')
 
     # These three inputs are provided by the user, although the LMP
     # filename (the prices) may or may not be provided by the user.
@@ -72,8 +72,8 @@ def allowed_files(allowed_extensions, *filenames):
 
 if __name__ == "__main__":
     run_dr_dispatch(
-        "user_uploads/WECC_Common Case Reference DR.csv",
-        "user_uploads/WECC_Common Case LMPs_20120130.csv",
-        "user_uploads/WECC_Hourly Energy Load.csv",
-        "Inflexible"
+        "/home/andrew/dr_dispatch/data/WECC_Common Case Reference DR.csv",
+        "/home/andrew/dr_dispatch/data/WECC_Common Case LMPs_20120130.csv",
+        "/home/andrew/dr_dispatch/data/WECC_Hourly Energy Load.csv",
+        "Original"
         )

@@ -3,7 +3,7 @@ from flask import Flask, request, redirect, render_template, url_for, send_from_
 from werkzeug import secure_filename 
 import helper_methods
 
-UPLOAD_FOLDER = '/home/andrew/dispatchtool/user_uploads'
+UPLOAD_FOLDER = os.path.abspath('user_uploads')
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
 
 app = Flask(__name__)
@@ -39,18 +39,15 @@ def get_started():
             dr_file.save(os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename))
             load_file.save(os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename))
             # run the algorithm using the three files you just saved to the server:
-            full_path_1 = os.path.join("/home/andrew/dispatchtool/user_uploads", lmp_server_filename)
-            full_path_2 = os.path.join("/home/andrew/dispatchtool/user_uploads", dr_server_filename)
-            full_path_3 = os.path.join("/home/andrew/dispatchtool/user_uploads", load_server_filename)
-            print full_path_1
-            print full_path_2
-            print full_path_3
+            lmp_path = os.path.join(app.config['UPLOAD_FOLDER'], lmp_server_filename)
+            dr_path = os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename)
+            load_path = os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename)
             
             helper_methods.run_dr_dispatch(
-                full_path_2,
-                full_path_1,
-                full_path_3,
-                "Inflexible")
+                dr_path,
+                lmp_path,
+                load_path,
+                "Original")
             return render_template('confirm_files.html',title="Confirm Files Submission")
     else:
         return render_template('get_started.html', title="Get Started")
