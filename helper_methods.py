@@ -29,11 +29,11 @@ def run_dr_dispatch(
     prog_input["DispatchAlgorithm"] = algorithm
 
     ba_input = {}
-    ba_input["CPP_Event"]= 2
-    ba_input["DLC_Event"] = 0
-    ba_input["LCR_Event"] = 0
+    ba_input["CPP_Event"]= 4
+    ba_input["DLC_Event"] = 5
+    ba_input["LCR_Event"] = 6
     ba_input["NumberEvents"] = 10
-    ba_input["Number_CPP_Events"] = 5
+    #ba_input["Number_CPP_Events"] = 5
 
     # This is how additional information will be added. Add this section:
     #ba_input["BA"] = {}

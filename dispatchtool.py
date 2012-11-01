@@ -47,7 +47,7 @@ def get_started():
                 dr_path,
                 lmp_path,
                 load_path,
-                "Original")
+                "Inflexible")
             return render_template('confirm_files.html',title="Confirm Files Submission")
     else:
         return render_template('get_started.html', title="Get Started")
