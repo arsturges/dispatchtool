@@ -1,9 +1,18 @@
 {% extends "layout.html" %}
 {% block main %}
 <h2>Confirm Files</h2>
+<p>You uploaded the following three files:</p>
 <pre>
 LMPs: {{ request.files['lmps'].filename if request.files else 'no file uploaded' }}
 DR: {{ request.files['dr'].filename if request.files else 'no file uploaded' }}
 Energy Load: {{ request.files['load'].filename if request.files else 'no file uploaded' }}
 </pre>
+<p>Your results are ready. Click below to download.</p>
+<form method='link' action='download_file/{{mw_dispatch_fn}}'>
+    <input type='submit' value='Download Megawatts of Dispatch File'>
+</form>
+<form method='link' action='download_file/{{prices_dispatch_fn}}'>
+    <input type='submit' value='Download Dispatch Prices File'>
+</form>
+{{megawatts_dispatch_fn}}
 {% endblock %}
