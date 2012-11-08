@@ -43,10 +43,11 @@ def run_dr_dispatch(
     #ba_input["BA"]["AESO"]["Number_CPP_Events"] = "10"
 
     DRD.writeConfigFile("configuration_file.ini", prog_input, ba_input)
-    megawatts_dispatch_fn, price_dispatch_fn = DRD.dispatchDR("configuration_file.ini") 
+    megawatts_dispatch_fn, prices_dispatch_fn = DRD.dispatchDR("configuration_file.ini") 
 
     print megawatts_dispatch_fn
-    print price_dispatch_fn
+    print prices_dispatch_fn
+    return megawatts_dispatch_fn, prices_dispatch_fn
 
 def allowed_files(allowed_extensions, *filenames):
     ''' Takes an arbitrary number of filenames and returns true if all of their
@@ -75,5 +76,5 @@ if __name__ == "__main__":
         "/home/andrew/dr_dispatch/data/WECC_Common Case Reference DR.csv",
         "/home/andrew/dr_dispatch/data/WECC_Common Case LMPs_20120130.csv",
         "/home/andrew/dr_dispatch/data/WECC_Hourly Energy Load.csv",
-        "Original"
+        "Inflexible"
         )

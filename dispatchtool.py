@@ -38,23 +38,28 @@ def get_started():
             lmp_file.save(os.path.join(app.config['UPLOAD_FOLDER'], lmp_server_filename))
             dr_file.save(os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename))
             load_file.save(os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename))
+
             # run the algorithm using the three files you just saved to the server:
             lmp_path = os.path.join(app.config['UPLOAD_FOLDER'], lmp_server_filename)
             dr_path = os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename)
             load_path = os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename)
             
-            helper_methods.run_dr_dispatch(
+            megawatts_dispatch_fn, prices_dispatch_fn = helper_methods.run_dr_dispatch(
                 dr_path,
                 lmp_path,
                 load_path,
                 "Inflexible")
-            return render_template('confirm_files.html',title="Confirm Files Submission")
+            return render_template(
+                'confirm_files.html',
+                title="Confirm Files Submission",
+                megawatts_dispatch_fn=os.path.basename(megawatts_dispatch_fn),
+                prices_dispatch_fn = os.path.basename(prices_dispatch_fn))
     else:
         return render_template('get_started.html', title="Get Started")
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return render_template('help.html',title='debugging')#send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/confirm_files')
 def confirm_files(lmps, dr, load):
