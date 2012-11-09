@@ -1,7 +1,10 @@
 import uuid
 import os.path, sys
 path = os.path.abspath(os.path.pardir) #path of parent directory
-path += '/dr_dispatch/src' #path from parent directory to DRD
+# For some reason when deployed this script is actually run from
+# /var/www, so we really want curdir instead of pardir.
+path = os.path.abspath(os.path.curdir)
+path += '/dr_dispatch/src' # Path to DRD.
 if path not in sys.path:
     sys.path.insert(0,path)
 import DRD
