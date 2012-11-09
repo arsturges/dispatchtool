@@ -8,7 +8,10 @@
 <body class="container">
     <div id="content">
         {% block header %}
-            {% include "header.html" %}
+            <!-- Don't show header on login page: -->
+            {% if request.path != '/login': %}
+                {% include "header.html" %}
+            {% endif %}
         {% endblock header %}
         {% block main %}
             <p>You are in the main block. This content from 'layout.html'. If you can read this paragraph, it has not been overwritten by a child template.</p>

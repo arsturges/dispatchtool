@@ -1,23 +1,43 @@
 import os
-from flask import Flask, request, redirect, render_template, url_for, send_from_directory
-from werkzeug import secure_filename 
+from flask import Flask, flash, redirect, render_template, request
+from flask import send_from_directory, session, url_for
+from werkzeug import secure_filename
+from functools import wraps
 import helper_methods
+import secret
 
 UPLOAD_FOLDER = os.path.abspath('user_uploads')
 DOWNLOAD_FOLDER = os.path.abspath('user_results')
 ALLOWED_EXTENSIONS = set(['txt', 'csv'])
+USERNAME = secret.username
+PASSWORD = secret.password
+SECRET_KEY = secret.secret_key
 
 app = Flask(__name__)
 app.debug = True # Set to false before deploying!
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 # 5 megabyte max upload size
-        
+app.config['USERNAME'] = USERNAME
+app.config['PASSWORD'] = PASSWORD
+app.config['SECRET_KEY'] = SECRET_KEY
+
+def authenticate(func): # http://flask.pocoo.org/snippets/8/
+    @wraps(func)
+    def call(*args, **kwargs):
+        if 'logged_in' in session and session['logged_in'] == True:
+            return func(*args, **kwargs)
+        else:
+            return redirect('login')
+    return call
+
 @app.route('/')
+@authenticate
 def index():
     return render_template('home.html', title = "Home") 
 
 @app.route('/get_started', methods = ['GET','POST'])
+@authenticate
 def get_started():
     error = None
     if request.method == 'POST':
@@ -74,24 +94,49 @@ def get_started():
         return render_template('get_started.html', title="Get Started", error=error)
 
 @app.route('/download_file/<filename>')
+@authenticate
 def download_file(filename):
     return send_from_directory(app.config['DOWNLOAD_FOLDER'], filename)
 
 @app.route('/confirm_files')
+@authenticate
 def confirm_files(lmps, dr, load):
     return render_template('confirm_files.html', title = "Confirm Files")
 
 @app.route('/help')
+@authenticate
 def help():
     return render_template('help.html', title = "Help") 
 
 @app.route('/about')
+@authenticate
 def about():
     return render_template('about.html', title = "About") 
 
 @app.route('/contact')
+@authenticate
 def contact():
     return render_template('contact.html', title = "Contact") 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        wrong_username = request.form['username'] != app.config['USERNAME']
+        wrong_password = request.form['password'] != app.config['PASSWORD']
+        if wrong_username or wrong_password:
+            error = 'Invalid username or password.'
+        else:
+            session['logged_in'] = True
+            flash('Login successful.')
+            return redirect('/')
+    return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash("You've been successfully logged out.")
+    return redirect('/login')
 
 if __name__ == '__main__':
     app.run() #disable app.debug before pushing to production.
