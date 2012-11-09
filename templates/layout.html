@@ -4,6 +4,12 @@
     <title>The Demand Response Dispatch Tool -- {{title}}</title>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" />
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='override.css') }}" />
+    <!-- Google Analytics part 1 of 2: -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36216693-1']);
+        _gaq.push(['_trackPageview']);
+    </script>
 </head>
 <body class="container">
     <div id="content">
@@ -21,6 +27,13 @@
         {% block footer %}
             {% include "footer.html" %}
         {% endblock footer %}
+        <!-- Google Analytics part 2 of 2: -->
+        <script type="text/javascript"> (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
     </footer>
 </body>
 </html>
