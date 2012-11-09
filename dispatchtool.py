@@ -4,23 +4,11 @@ from flask import send_from_directory, session, url_for
 from werkzeug import secure_filename
 from functools import wraps
 import helper_methods
-import secret
-
-UPLOAD_FOLDER = os.path.abspath('user_uploads')
-DOWNLOAD_FOLDER = os.path.abspath('user_results')
-ALLOWED_EXTENSIONS = set(['txt', 'csv'])
-USERNAME = secret.username
-PASSWORD = secret.password
-SECRET_KEY = secret.secret_key
+import app_settings
 
 app = Flask(__name__)
-app.debug = True # Set to false before deploying!
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 # 5 megabyte max upload size
-app.config['USERNAME'] = USERNAME
-app.config['PASSWORD'] = PASSWORD
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config.from_object(app_settings)
+app.debug = True       # Set to false before deploying!
 
 def authenticate(func): # http://flask.pocoo.org/snippets/8/
     @wraps(func)
