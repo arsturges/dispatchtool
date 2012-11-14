@@ -29,7 +29,7 @@ def index():
 def get_started():
     error = None
     if request.method == 'POST':
-        # establish the 'user-uploaded' fles and a unique string
+        # Establish the 'user-uploaded' files and a unique string
         # to temporarily store them on the server:
         lmp_file = request.files['lmps']
         dr_file = request.files['dr']
@@ -37,7 +37,7 @@ def get_started():
         uuid_string = helper_methods.generateID()
 
         if lmp_file and dr_file and load_file and helper_methods.allowed_files(
-                ALLOWED_EXTENSIONS, 
+                app.config['ALLOWED_EXTENSIONS'],
                 lmp_file.filename,
                 dr_file.filename,
                 load_file.filename):
