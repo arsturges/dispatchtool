@@ -6,7 +6,7 @@ shared_root = os.path.dirname(parent_directory_to_this_file)
 path_to_DRD_module = os.path.join(shared_root, 'dr_dispatch', 'src')
 
 if path_to_DRD_module not in sys.path:
-    sys.path.insert(0,path)
+    sys.path.insert(0,path_to_DRD_module)
 import DRD
 
 def generateID():
