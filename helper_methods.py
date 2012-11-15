@@ -19,7 +19,7 @@ def run_dr_dispatch(
     algorithm):
 
     user_id = generateID()
-    output_dir = os.path.abspath('user_results')
+    output_dir = os.path.join(parent_directory_to_this_file, 'user_results')
 
     # These three inputs are provided by the user, although the LMP
     # filename (the prices) may or may not be provided by the user.
