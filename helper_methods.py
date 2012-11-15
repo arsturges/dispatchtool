@@ -45,8 +45,11 @@ def run_dr_dispatch(
     #ba_input["BA"]["AESO"] = {}
     #ba_input["BA"]["AESO"]["Number_CPP_Events"] = "10"
 
-    DRD.writeConfigFile("configuration_file.ini", prog_input, ba_input)
-    megawatts_dispatch_fn, prices_dispatch_fn = DRD.dispatchDR("configuration_file.ini") 
+    configuration_file_path = os.path.join(
+        parent_directory_to_this_file, 
+        'configuration_file.ini')
+    DRD.writeConfigFile(configuration_file_path, prog_input, ba_input)
+    megawatts_dispatch_fn, prices_dispatch_fn = DRD.dispatchDR(configuration_file_path) 
 
     print megawatts_dispatch_fn
     print prices_dispatch_fn
