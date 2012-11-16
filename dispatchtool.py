@@ -8,7 +8,7 @@ import app_settings
 
 app = Flask(__name__)
 app.config.from_object(app_settings)
-app.debug = True       # Set to false before deploying!
+app.debug = True # Set to false before deploying!
 
 def authenticate(func): # http://flask.pocoo.org/snippets/8/
     @wraps(func)
@@ -34,6 +34,7 @@ def get_started():
         lmp_file = request.files['lmps']
         dr_file = request.files['dr']
         load_file = request.files['load']
+        algorithm = request.form['algorithm']
         uuid_string = helper_methods.generateID()
 
         if lmp_file and dr_file and load_file and helper_methods.allowed_files(
@@ -61,7 +62,7 @@ def get_started():
                 dr_path,
                 lmp_path,
                 load_path,
-                "Inflexible")
+                algorithm)
             except:
                 return render_template(
                     'get_started.html',
@@ -100,6 +101,11 @@ def help():
 @authenticate
 def about():
     return render_template('about.html', title = "About") 
+
+@app.route('/algorithms')
+@authenticate
+def algorithms():
+    return render_template('algorithms.html', title = "Algorthms") 
 
 @app.route('/contact')
 @authenticate

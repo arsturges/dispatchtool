@@ -6,6 +6,7 @@
 LMPs: {{ request.files['lmps'].filename if request.files else 'no file uploaded' }}
 DR: {{ request.files['dr'].filename if request.files else 'no file uploaded' }}
 Energy Load: {{ request.files['load'].filename if request.files else 'no file uploaded' }}
+Algorithm: {{ request.form['algorithm'] }}
 </pre>
 <p>Your results are ready. Click below to download.</p>
 <form method='link' action='download_file/{{mw_dispatch_fn}}'>
