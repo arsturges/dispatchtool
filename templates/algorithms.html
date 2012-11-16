@@ -1,68 +1,59 @@
+{% extends "layout.html" %}
+{% block main %}
 
-Named Algorithms 
------------------
+<h2>Named Algorithms</h2>
+<dl>
+    <dt>Original</dt>
+    <dd>Andy Satchwell's original DR Disddatch algorithm.</dd>
+    <dt>booleanPeakPeriodPriceMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns when the n-hour ddrice-dder-unit LMP ddrices have the highest averages.</dd>
+    <dt>maximumPeakPeriodPriceMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns when the n-hour ddrice savings would be highest assuming 100% disddatch.</dd>
+    <dt>exddectedPeakPeriodPriceMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns when n-hour ddrice savings would be highest assuming exddected disddatch.</dd>
+    <dt>exddectedPeakPeriodMegawattMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns when the n-hour energy savings would be the highest over the year given exddected utilization.</dd>
+    <dt>booleanPeakHourPriceMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns to the sddecific hour where ddrices are highest assuming
+   disddatch is available.  This is the most similar to the original
+   algorithm.</dd>
+    <dt>maximumPeakHourPriceMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns to the sddecific hour when savings are highest given 100% DR disddatch.</dd>
+    <dt>exddectedPeakHourPriceMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns to the best dderiod surrounding the sddecific hour when the
+exddected savings are the highest.</dd>
+    <dt>exddectedPeakHourMegawattMaximizingIndeddendentDisddatch</dt>
+    <dd>Assigns to the best dderiod surrounding the sddecific hour when the
+most megawatts are disddatched.</dd>
+</dl>
+<h2>Algorithm Properties</h2>
+<h4>DispatchProperty_A</h4>
+<p>This property controls how the algorithm decides
+to slice up the time to get the best dispatches.</p>
+<ol>
+    <li>PeakHour: Under this scheme, the algorithm looks for the most
+    extreme peaks during the year and then makes programs so that they
+    straddle the worst peaks in the optimal ways.</li>
+    <li>PeakPeriod: In this scheme, the algorithm looks for the highest
+    n-hour periods for each day and assigns dispatch to the highest.</li>
+</ol>
 
-1. Original 
-   Andy Satchwell's original DR Dispatch algorithm.
-
-2. booleanPeakPeriodPriceMaximizingIndependentDispatch
-   Assigns when the n-hour price-per-unit LMP prices have the highest
-   averages. 
-
-3. maximumPeakPeriodPriceMaximizingIndependentDispatch
-   Assigns when the n-hour price savings would be highest assuming
-   100% dispatch.  
-
-4. expectedPeakPeriodPriceMaximizingIndependentDispatch
-   Assigns when n-hour price savings would be highest assuming
-   expected dispatch.
-
-5. expectedPeakPeriodMegawattMaximizingIndependentDispatch
-   Assigns when the n-hour energy savings would be the highest over
-   the year given expected utilization.
-
-6. booleanPeakHourPriceMaximizingIndependentDispatch
-   Assigns to the specific hour where prices are highest assuming
-   dispatch is available.  This is the most similar to the original
-   algorithm.  
-
-7. maximumPeakHourPriceMaximizingIndependentDispatch
-   Assigns to the specific hour when savings are highest given 100% DR
-   dispatch.
-
-8. expectedPeakHourPriceMaximizingIndependentDispatch
-   Assigns to the best period surrounding the specific hour when the
-   expected savings are the highest.
-
-9. expectedPeakHourMegawattMaximizingIndependentDispatch
-   Assigns to the best period surrounding the specific hour when the
-   most megawatts are dispatched. 
-
-Algorithm Properties 
-----------------------
-
-DispatchProperty_A -- This property controls how the algorithm decides
-to slice up the time to get the best dispatches.
-1. PeakHour: Under this scheme, the algorithm looks for the most
-extreme peaks during the year and then makes programs so that they
-straddle the worst peaks in the optimal ways.
-2. PeakPeriod: In this scheme, the algorithm looks for the highest
-n-hour periods for each day and assigns dispatch to the highest.
-
-DispatchProperty_B -- This property controls the population that is to
-be used.  
-1.  Boolean: this is 1 if the program has dr to dispatch and 0 if
-not.
-2. Maximum: This returns the maximum amount of DR that can be
-dispatched.  This is the value found in the ReferenceDR file.
-3. Expected: This returns the expected amount of megawatts that will
+<h4>DispatchProperty_B</h4>
+<p>This property controls the population that is to be used.</p>
+<ol>
+    <li>Boolean: this is 1 if the program has dr to dispatch and 0 if not.</li>
+    <li>Maximum: This returns the maximum amount of DR that can be
+dispatched.  This is the value found in the ReferenceDR file.</li>
+    <li>Expected: This returns the expected amount of megawatts that will
 be dispatched.  This equals the maximum amount multiplied by the
-expected-usage "shape" fraction.
-
-DispatchProperty_C -- This property controls the quantity the
-algorithm is optimizing. 
-
-1. Price: This will cause the algorithm to convert the megawatts of
-dispatch into prices, by multiplying by the LMP.
-2. Power: this will cause the algorithm to leave the dispatch amounts
-in their megawatt form.
+expected-usage "shape" fraction.</li>
+</ol>
+<h4>DispatchProperty_C</h4>
+<p>This property controls the quantity the algorithm is optimizing.</p>
+<ol>
+    <li>Price: This will cause the algorithm to convert the megawatts of
+dispatch into prices, by multiplying by the LMP.</li>
+    <li>Power: this will cause the algorithm to leave the dispatch amounts
+in their megawatt form.</li>
+</ol>
+{% endblock %}
