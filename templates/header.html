@@ -9,8 +9,10 @@
             <li><a href="/help">Help</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>
-        {% if session.logged_in %}
-            <a href = "{{ url_for('logout') }}">Log out</a>
-        {% endif %}
+        <ul class="nav pull-right">
+            {% if session.logged_in %}
+                <li class="pull-right"><a href = "{{ url_for('logout') }}">Log out</a></li>
+            {% endif %}
+        </ul>
     </div>
 </div>
