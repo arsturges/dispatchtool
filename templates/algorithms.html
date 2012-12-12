@@ -56,4 +56,29 @@ dispatch into prices, by multiplying by the LMP.</li>
     <li>Power: this will cause the algorithm to leave the dispatch amounts
 in their megawatt form.</li>
 </ol>
+
+<h3>Text from Nathan</h3>
+
+<p>The Demand Response Dispatch Tool (DRDT) works by constructing a curve 
+that represents various quantities. It is against this curve it decides what 
+the "high" and "low" periods against which to dispatch are.</p>
+
+<p>Overall, those quantities are the kW of energy being used by the grid, the 
+cost of the kW of energy being used by the grid, and the unit cost of the 
+energy being used by the grid.</p>
+
+<p>Next, two very distinct strategies are chosen for assigning DR 
+dispatch -- flexibly or inflexibly. In the inflexible approach, each 
+program is considered so that each program is called X times with each 
+call being some continuous block of Y hours.  No program can be called more 
+than once per day. In the flexible approach, each program can be called for 
+X*Y 1 hour blocks.  No one program can be called more than once in an hour, 
+and no program can be called more than Y times in a day.</p>
+
+<p>Finally, in the inflexible approach, two modes of operation are possible.
+In the first, the DR periods to use are calculated as the highest averages - 
+so that a 4 hour program would look at 4-hour average periods when describing 
+which to assign to (PeakPeriod).  In the second, the DR periods are assigned to 
+contain the highest individual hours of the year, and started at the hour that 
+maximizes the DR reduction given that.</p>
 {% endblock %}
