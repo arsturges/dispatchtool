@@ -92,10 +92,10 @@ def download_file(filename):
 def confirm_files(lmps, dr, load):
     return render_template('confirm_files.html', title = "Confirm Files")
 
-@app.route('/help')
+@app.route('/documentation')
 @authenticate
-def help():
-    return render_template('help.html', title = "Help") 
+def documentation():
+    return render_template('documentation.html', title = "Help") 
 
 @app.route('/about')
 @authenticate
