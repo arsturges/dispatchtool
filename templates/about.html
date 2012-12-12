@@ -1,42 +1,60 @@
 {% extends "layout.html" %}
 {% block main %}
+
+<!-- TODO:
+Satch will look for better graphic, OR fix the graphic below.
+-->
 <h2>About the Demand Response Dispatch Tool</h2>
 
-<p>In 2009, Lawrence Berkeley National Laboratory's <a href = "emp.lbl.gov">
-Electricity Markets and Policy Group</a> was working with the 
-<a href="www.wecc.biz">Wester Electricity Coordinating Council</a> (WECC)
-to analyze system loads across the WECC network. When studying th effects of a 
-proposed demand response (DR) program, they found that curret industry tools 
-did not adequeatly meet their modeling needs.</p>
+<p>Demand Response (DR) resources play an important role in transmission and capacity expansion modeling and in integrated resource planning. 
+DR resources have the ability to reduce system peak load and/or shift load from system peak to other times in the day. 
+This peak reduction and peak shifting may reduce the need to build new generation and transmission, reducing costs and providing environmental benefits.</p>
 
-<p>To meet the need for realistic representation of the effect of a demand 
-response program on the electrical grid, LBL developed The Demand Response 
-Dispatch Tool. Originally written in SAS but translated to Python, it has 
-been released here under an evaluation license for use by industry.</p>
+<p>The Demand Response Dispatch Tool (DRDT) was developed by Lawrence Berkeley National Laboratory (LBNL) to create load modifying profiles of Demand Response (DR) resources for use by regional transmission planners in the Western Interconnect. 
+The DRDT uses DR resource availability and price information to develop a realistic dispatch approach for economic DR resources. 
+The DRDT was initially created to develop inputs to PROMOD, a production cost model, but the load modifying profiles can be used more widely by other production cost and planning models.</p>
 
 <h3>How does The Demand Response Dispatch Tool work?</h3>
-<p>The Demand Response Dispatch Tool (DRDT) works by constructing a curve 
-that represents various quantities. It is against this curve it decides what 
-the "high" and "low" periods against which to dispatch are.</p>
+<p>The Demand Response Dispatch Tool (DRDT) works by dispatching demand 
+response resources during high-price hours or high-load hours according 
+to resource availability.
+At a high level, the DRDT first characterizing a resource in terms of its program attributes, 
+and then utilizes that resource in a resource-planning context with respect to its characteristics.</p>
 
-<p>Overall, those quantities are the kW of energy being used by the grid, the 
-cost of the kW of energy being used by the grid, and the unit cost of the 
-energy being used by the grid.</p>
+<p>The DRDT uses 8760 price and load profiles--provided the user--subject to program-specific constraints (e.g. expected hours of dispatch per program per year).
+Demand response resources are available in relationship </p> 
 
-<p>Next, two very distinct strategies are chosen for assigning DR 
-dispatch -- flexibly or inflexibly. In the inflexible approach, each 
-program is considered so that each program is called X times with each 
-call being some continuous block of Y hours.  No program can be called more 
-than once per day. In the flexible approach, each program can be called for 
-X*Y 1 hour blocks.  No one program can be called more than once in an hour, 
-and no program can be called more than Y times in a day.</p>
+<p>The availability of DR programs varies by month and by hour, for some programs. 
+It is important to capture this availability in the modeling of DR resources, in order to ensure DR programs typically used during system peak months and hours are not utilized at full availability in non-system-peak months and hours.</p>
 
-<p>Finally, in the inflexible approach, two modes of operation are possible.
-In the first, the DR periods to use are calculated as the highest averages - 
-so that a 4 hour program would look at 4-hour average periods when describing 
-which to assign to (PeakPeriod).  In the second, the DR periods are assigned to 
-contain the highest individual hours of the year, and started at the hour that 
-maximizes the DR reduction given that.</p>
+
+<h3>What is a dispatchable demand response resource?</h3>
+<div class="row">
+    <div class="span4">
+        <p>A demand response resource refers to any reductiong in electric load. 
+        The DRDT models dispatchable response programs which are capable of reducting load in response to dispatch signals. 
+        These signals come from the grid operator in real-time. 
+        The demand response resources used in the DRDT are based on NERC-definitions of dispatchable demand response resources.</p>
+<p>The user provides the maximum monthly demand response resource size. For example, in August 2012 the maximum demand response resource might by 100 megawatts. 
+Internally, the DRDT uses calculates based on the annual peak load how much of that total potential demand response resource is actually available to reduce load.
+For example, if the annual peak load was 4000 megawatts and the current load is 2000 megawatts, then only 50% of the 100 megawatts of the demand response resource is actually available to reduce load. The other 50% is not active, and so can't be reduced.</p>
+    </div>
+    <div class="span8">
+        <img src ="{{ url_for('static', filename='images/NERC.png') }}">
+    </div>
+</div>
+
+<h3>What is a demand response program?</h3>
+The demand response programs modeled in the DRDT include:
+<ul>
+    <li>Pricing with controls</li>
+    <li>Diect load control</li>
+    <li>Load as a capacity resource</li>
+    <li>Interruptible</li>
+</ul>
+
+
+
 
 <h2>About this website</h2>
 <p>This site was created with the <a href="http://flask.pocoo.org/"> Flask</a> 
