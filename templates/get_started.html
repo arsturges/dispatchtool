@@ -11,12 +11,15 @@
     <p>LMPs:<input type=file name=lmps></p>
     <p>DR:<input type=file name=dr></p>
     <p>Energy Load:<input type=file name=load></p>
-    <p>Dispatch Algorithm:
-    <select name='algorithm'>
-        <option value='Inflexible'>Inflexible</option>
-        <option value='Original'>Original</option>
-        <option value='BooleanPeakPricing'>BooleanPeakPricing</option>
-    </select></p>
+    <fieldset>
+        <legend>Choose algorithm</legend>
+        <p>Dispatch Algorithm:</p>
+        <select name='algorithm'>
+            <option value='Inflexible'>Inflexible</option>
+        </select>
+        <span class="help-block">Algorithm choice determines how the
+        tool dispatches the available demand response resource.</span>
+    </fieldset>
     <input type='submit' value="Calculate Demand Response" class="btn btn-primary">
 </form>
 {% endblock %}
