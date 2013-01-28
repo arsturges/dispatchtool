@@ -8,7 +8,7 @@ import app_settings
 
 app = Flask(__name__)
 app.config.from_object(app_settings)
-app.debug = True # Set to false before deploying!
+app.debug = False # Set to false before deploying!
 
 def authenticate(func): # http://flask.pocoo.org/snippets/8/
     @wraps(func)
