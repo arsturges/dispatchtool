@@ -17,7 +17,6 @@ $ git pull
 $ # make sure debug is set to False!
 $ sudo /etc/init.d/apache2 restart
 
-
 Questions:
-Why is os.path.curdir different when running on server vs. workstation?
-Why is Apache not writing to access.log?
+* Why is os.path.curdir different when running on server vs. workstation?
+* Why is Apache not writing to access.log?
