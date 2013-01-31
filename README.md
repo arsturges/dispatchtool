@@ -12,17 +12,12 @@ $ cd dispatchtool
 $ python dispatchtool.py
 
 To deploy on server:
-$ cd ~
-$ git clone git@github.com:arsturges/dispatchtool.git
-$ cd /var/www/
-$ sudo ln -s ~/dispatchtool dispatchtool
+$ cd /var/www/dispatchtool
+$ git pull
+$ chown -R ../dispatchtool/ www-var
 $ # make sure debug is set to False!
 $ # make sure secret.py exists
 $ sudo /etc/init.d/apache2 restart
-
-To update on server:
-$ cd ~
-$ git pull
 
 Questions:
 * Why is os.path.curdir different when running on server vs. workstation?
