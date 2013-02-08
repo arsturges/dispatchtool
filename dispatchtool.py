@@ -102,7 +102,7 @@ def confirm_files(lmps, dr, load):
 @app.route('/documentation')
 @authenticate
 def documentation():
-    return render_template('documentation.html', title = "Help") 
+    return render_template('documentation.html', title = "Documentation") 
 
 @app.route('/about')
 @authenticate
