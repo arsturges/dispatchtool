@@ -10,6 +10,13 @@ app = Flask(__name__)
 app.config.from_object(app_settings)
 app.debug = False # Set to false before deploying!
 
+@app.context_processor
+def utility_processor():
+    def add_class(title, string):
+        if title == string:
+            return 'class="active"'
+    return dict(add_class=add_class)
+
 def authenticate(func): # http://flask.pocoo.org/snippets/8/
     @wraps(func)
     def call(*args, **kwargs):

@@ -3,11 +3,11 @@
     <div class="navbar-inner">
         <a class="brand" href="/"><i class="icon-leaf"></i> Demand Response Dispatch Tool</a>
         <ul class="nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/get_started">Get Started</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/documentation">Documentation</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li {{ add_class(title, 'Home')|safe }}><a href="/">Home</a></li>
+            <li {{ add_class(title, 'Get Started')|safe }}><a href="/get_started">Get Started</a></li>
+            <li {{ add_class(title, 'About')|safe }}><a href="/about">About</a></li>
+            <li {{ add_class(title, 'Documentation')|safe }}><a href="/documentation">Documentation</a></li>
+            <li {{ add_class(title, 'Contact')|safe }}><a href="/contact">Contact</a></li>
         </ul>
         <ul class="nav pull-right">
             {% if session.logged_in %}
