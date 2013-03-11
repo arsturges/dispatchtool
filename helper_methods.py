@@ -8,6 +8,7 @@ path_to_DRD_module = os.path.join(shared_root, 'dr_dispatch', 'src')
 if path_to_DRD_module not in sys.path:
     sys.path.insert(0,path_to_DRD_module)
 import DRD
+import write_config_file
 
 def generateID():
      return "ID_" + str(uuid.uuid1().int)
@@ -48,7 +49,7 @@ def run_dr_dispatch(
     configuration_file_path = os.path.join(
         parent_directory_to_this_file, 
         'configuration_file.ini')
-    DRD.writeConfigFile(configuration_file_path, prog_input, ba_input)
+    write_config_file.writeConfigFile(configuration_file_path, prog_input, ba_input)
     megawatts_dispatch_fn, prices_dispatch_fn = DRD.dispatchDR(configuration_file_path) 
 
     print megawatts_dispatch_fn
