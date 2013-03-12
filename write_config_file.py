@@ -1,84 +1,92 @@
-def writeConfigFile(config_file_name, program_input, dr_dispatch):
-    assert(isinstance(program_input, dict))
-    assert(isinstance(dr_dispatch, dict))
+"""
+This module takes care of generating config files needed to run the
+dr_dispatch tool (DRD). Config files are the only way to run DRD.
+Config file section headings and the associated key names are specified
+by DRD, and should not be changed. The four dictionaries below illustrate
+these names. The dispatchtool web application should take care to 
+generate these input dictionaries exactly as they appear here.
+"""
 
-    import ConfigParser
+import ConfigParser
 
-    # class MyConfig(ConfigParser.RawConfigParser):
-    #     def optionxform(self, optionstr):
-    #         return str(optionstr)
+input_ = {
+    "Strict": 3, 
+    "DR_Availability_File_Name": 'Debug_DR_Levels.csv',
+    "Prices_File_Name": "lmp_data.csv",
+    "Demand_File_Name": "WECC_Hourly Energy Load.csv"}
+
+output = {
+    "Directory": "demonstration_output",
+    "Name": "FLEXIBLE_NONINTERRUPT", # Addy why is the called "The tag" in /examples/flexible_nointeruptables.conf?
+    "Make_Graphs": True}
+
+dispatch_configuration = {
+    "Dispatch_Name": "Original", # Addy is this needed?
+    "Dispatch_Type": "PeakBlock", # 'Flexible'; 'PeriodBlock'
+    "Dispatch_Trigger": "ExpectedPriceSavings"
+    # ExpectedDemandSavings; Demand; Price
+    }
+
+dr_programs = {
+    "P_Event_Length": 4,
+    "L_Event_Length": 4,
+    "I_Event_Length": 4,
+    "R_Event_Length": 4,
+    "P_Number_Events": 2,
+    "L_Number_Events": 2,
+    "I_Number_Events": 2,
+    "R_Number_Events": 2,
+    "PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
+    }
+
+def writeConfigFile(
+                      input_,
+                      output,
+                      dispatch_configuration,
+                      dr_programs):
+
+    """ Write a config file to be read by DRD module. Takes a file name
+    and four dictionaries. Dictionaries must have keys named as in the
+    examples above, because that's what DRD expects. """
 
     config = ConfigParser.RawConfigParser()
-    config.optionxform = str
+    config.optionxform = str # Addy what does this do?
 
-    # These are the actual headers.
-    prog_input = "Program Input"
+    # Section Headers
+    config.add_section("Input")
+    config.add_section("Output")
+    config.add_section("Dispatch Configuration")
+    config.add_section("DR Programs") # For general settings.
+    # BA-specific settings (overrides) go labeled sections below.
 
-    refdr_fn = "ReferenceDR_FileName"
-    lmp_fn = "LMP_FileName"
-    energyload_fn = "EnergyLoadData_FileName"
-    out_dir = "OutputDirectory"
-    out_name = "OutputName"
-    algorithm = "DispatchAlgorithm"
+    # Section key:value pairs
+    defined_keys = [
+        'P_Event_Length',
+        'L_Event_Length',
+        'I_Event_Length',
+        'R_Event_Length',
+        'P_Number_Events',
+        'L_Number_Events',
+        'I_Number_Events',
+        'R_Number_Events']
+    for key, value in input_.iteritems():
+        config.set("Input", key, value)
+    for key, value in output.iteritems():
+        config.set("Output", key, value)
+    for key, value in dispatch_configuration.iteritems():
+        config.set("Dispatch Configuration", key, value)
+    for key, value in dr_programs.iteritems():
+        if key in defined_keys:
+            config.set("DR Programs", key, value)
 
-    dr_dispatch_sec = "DR Dispatch"
+    for key, value in dr_programs.iteritems():
+        if key not in defined_keys:
+            config.add_section("DR Programs/"+key)
+            for ba_key, ba_value in dr_programs[key].iteritems():
+                config.set("DR Programs/"+key, ba_key, ba_value)
 
-    config.add_section(prog_input)
-
-    try:
-        config.set(prog_input, refdr_fn, program_input[refdr_fn])
-        config.set(prog_input, lmp_fn, program_input[lmp_fn])
-        config.set(prog_input, energyload_fn, program_input[energyload_fn])
-        config.set(prog_input, out_dir, program_input[out_dir])
-        config.set(prog_input, out_name, program_input[out_name])
-        config.set(prog_input, algorithm, program_input[algorithm])
-    except KeyError, xcpt:
-        raise xcpt
-
-    config.add_section(dr_dispatch_sec)
-    
-    __writeDispatchToSection(config, dr_dispatch_sec, dr_dispatch)
-
-
-    if "BA" in dr_dispatch:
-        for ba in dr_dispatch["BA"].keys():
-            sec_name = "/".join([dr_dispatch_sec, ba])
-            config.add_section(sec_name)
-            __writeDispatchToSection(config, sec_name, dr_dispatch["BA"][ba])
-
-    with open(config_file_name, 'w') as config_file:
+    with open("configuration_file.ini", 'w') as config_file:
         config.write(config_file)
-    return 
 
-
-def __writeDispatchToSection(config, section, dictionary):
-    cpp_event = "CPP_Event"
-    dlc_event = "DLC_Event"
-    lcr_event = "LCR_Event"
-    num_event = "NumberEvents"
-    num_cpp_event = "Number_CPP_Events"
-    num_lcr_event = "Number_LCR_Events"
-    num_dlc_event = "Number_DLC_Events"
-
-    if cpp_event in dictionary.keys():
-        config.set(section, cpp_event, dictionary[cpp_event])
-
-    if dlc_event in dictionary.keys():
-        config.set(section, dlc_event, dictionary[dlc_event])
-
-    if lcr_event in dictionary.keys():
-        config.set(section, lcr_event, dictionary[lcr_event])
-
-    if num_event in dictionary.keys():
-        config.set(section, num_event, dictionary[num_event])
-
-    if num_cpp_event in dictionary.keys():
-        config.set(section, num_cpp_event, dictionary[num_cpp_event])
-
-    if num_lcr_event in dictionary.keys():
-        config.set(section, num_lcr_event, dictionary[num_lcr_event])
-                            
-    if num_dlc_event in dictionary.keys():
-        config.set(section, num_dlc_event, dictionary[num_dlc_event])
-
-        return 
+if __name__ == "__main__":
+    writeConfigFile(input_, output, dispatch_configuration, dr_programs)
