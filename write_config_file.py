@@ -8,6 +8,9 @@ generate these input dictionaries exactly as they appear here.
 """
 
 import ConfigParser
+import os
+
+present_directory = os.path.abspath('.')
 
 input_ = {
     "Strict": 3, 
@@ -16,7 +19,7 @@ input_ = {
     "Demand_File_Name": "/home/andy/dr_dispatch/examples/WECC_Hourly Energy Load.csv"}
 
 output = {
-    "Directory": "/home/andy/dispatchtool/user_results/", # Addy, can it just 'return' two files instead of writing them somewhere?
+    "Directory": os.path.join(present_directory, 'user_results'), # Addy, can it just 'return' two files instead of writing them somewhere?
     "Name": "FLEXIBLE_NONINTERRUPT", # Filename prefix.
     "Make_Graphs": True}
 

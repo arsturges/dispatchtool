@@ -22,7 +22,7 @@ def run_dr_dispatch(
 
     print "Entering run_dr_dispatch" 
     user_id = generateID()
-    output_dir = os.path.join(parent_directory_to_this_file, 'user_results')
+    output_dir = os.path.join(os.path.abspath(__file__), 'user_results')
 
     input_ = {
         "Strict": 3, 
@@ -31,7 +31,7 @@ def run_dr_dispatch(
         "Demand_File_Name": energy_load_data_filename}
 
     output = {
-        "Directory": "/home/andy/dispatchtool/user_results/", 
+        "Directory": os.path.join(os.path.abspath('.'), "user_results"), 
         # Addy, can it just 'return' two files instead of writing them somewhere?
         "Name": dispatch_type + "_" + dispatch_trigger + "_" + user_id + "_", 
         # filenames prefix, e.g. "PeakBlock_ExpectedDemandSavings_49582_"
@@ -63,6 +63,8 @@ def run_dr_dispatch(
     write_config_file.writeConfigFile(input_, output, dispatch_configuration, dr_programs)
     conf = DRD.Configuration.getConfiguration(configuration_file_path)
     DRD.bin.dispatchDR(conf) 
+    return output['Name']+'dr_dispatches.csv', output['Name']+'dr_prices.csv'
+
 
 def allowed_files(allowed_extensions, *filenames):
     ''' Takes an arbitrary number of filenames and returns true if all of their

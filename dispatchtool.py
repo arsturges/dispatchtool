@@ -5,6 +5,7 @@ from werkzeug import secure_filename
 from functools import wraps
 import helper_methods
 import app_settings
+import DRD
 
 app = Flask(__name__)
 app.config.from_object(app_settings)
@@ -66,26 +67,23 @@ def get_started():
             load_path = os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename)
             
             # run the algorithm using the three files you just saved to the server:
-            #try:
-            helper_methods.run_dr_dispatch(dr_path,
-                                          lmp_path, 
-                                          load_path, 
-                                          dispatch_type, 
-                                          dispatch_trigger)
-            """
-            except:
+            try:
+                mw_file_path, prices_file_path = helper_methods.run_dr_dispatch(
+                    dr_path,
+                    lmp_path, 
+                    load_path, 
+                    dispatch_type, 
+                    dispatch_trigger)
+            except (OSError, NameError, DRD.parsing.ParsingException) as e:
                 return render_template(
                     'get_started.html',
                     title='Get Started',
-                    error = "The back end returned a parsing error. \
-                        This probably means that one or more of the files \
-                        you submitted isn't formatted correctly.")
-            """
+                    error = e)
             return render_template(
                 'confirm_files.html',
                 title="Confirm Files Submission",
-                mw_dispatch_fn="andrew",#os.path.basename(mw_dispatch_fn),
-                prices_dispatch_fn = "bob") #os.path.basename(prices_dispatch_fn))
+                mw_dispatch_fn=os.path.basename(mw_file_path),
+                prices_dispatch_fn = os.path.basename(prices_file_path))
         else:
             error = "The program requires all three files to be present, and all \
                 three files must be of type 'text' or 'csv'."
