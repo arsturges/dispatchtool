@@ -13,12 +13,21 @@
     <p>Energy Load:<input type=file name=load></p>
     <fieldset>
         <legend>Choose algorithm</legend>
-        <p>Dispatch Algorithm:</p>
-        <select name='algorithm'>
-            <option value='Inflexible'>Inflexible</option>
-        </select>
         <span class="help-block">Algorithm choice determines how the
         tool dispatches the available demand response resource.</span>
+        <p>Dispatch Type</p>
+        <select name='dispatch_type'>
+            <option value='PeakBlock'>PeakBlock</option>
+            <option value='Flexible'>Flexible</option>
+            <option value='PeriodBlock'>PeriodBlock</option>
+        </select>
+        <p>Dispatch Trigger</p>
+        <select name='dispatch_trigger'>
+            <option value='ExpectedPriceSavings'>ExpectedPriceSavings</option>
+            <option value='ExpectedDemandSavings'>ExpectedDemandSavings</option>
+            <option value='Demand'>Demand</option>
+            <option value='Price'>Price</option>
+        </select>
     </fieldset>
     <input type='submit' value="Calculate Demand Response" class="btn btn-primary">
 </form>

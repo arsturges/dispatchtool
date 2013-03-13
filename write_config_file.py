@@ -11,20 +11,26 @@ import ConfigParser
 
 input_ = {
     "Strict": 3, 
-    "DR_Availability_File_Name": 'Debug_DR_Levels.csv',
-    "Prices_File_Name": "lmp_data.csv",
-    "Demand_File_Name": "WECC_Hourly Energy Load.csv"}
+    "DR_Availability_File_Name": '/home/andy/dr_dispatch/examples/Debug_DR_Levels.csv',
+    "Prices_File_Name": "/home/andy/dr_dispatch/examples/lmp_data.csv",
+    "Demand_File_Name": "/home/andy/dr_dispatch/examples/WECC_Hourly Energy Load.csv"}
 
 output = {
-    "Directory": "demonstration_output",
-    "Name": "FLEXIBLE_NONINTERRUPT", # Addy why is the called "The tag" in /examples/flexible_nointeruptables.conf?
+    "Directory": "/home/andy/dispatchtool/user_results/", # Addy, can it just 'return' two files instead of writing them somewhere?
+    "Name": "FLEXIBLE_NONINTERRUPT", # Filename prefix.
     "Make_Graphs": True}
 
 dispatch_configuration = {
-    "Dispatch_Name": "Original", # Addy is this needed?
-    "Dispatch_Type": "PeakBlock", # 'Flexible'; 'PeriodBlock'
-    "Dispatch_Trigger": "ExpectedPriceSavings"
-    # ExpectedDemandSavings; Demand; Price
+    #"Dispatch_Name": "Original", 
+    # Addy is this needed? Seems like it's either 'dispatch_name' OR the two triggers.
+    # If so, what are the names? Or should we just remove this option?
+    "Dispatch_Type": "PeakBlock",
+    "Dispatch_Type": "Flexible",
+    "Dispatch_Type": "PeriodBlock",
+    "Dispatch_Trigger": "ExpectedPriceSavings",
+    "Dispatch_Trigger": "ExpectedDemandSavings",
+    "Dispatch_Trigger": "Demand",
+    "Dispatch_Trigger": "Price"
     }
 
 dr_programs = {
@@ -52,7 +58,7 @@ def writeConfigFile(
     config = ConfigParser.RawConfigParser()
     config.optionxform = str # Addy what does this do?
 
-    # Section Headers
+    # Section Headers (just the four main sections)
     config.add_section("Input")
     config.add_section("Output")
     config.add_section("Dispatch Configuration")
@@ -79,13 +85,15 @@ def writeConfigFile(
         if key in defined_keys:
             config.set("DR Programs", key, value)
 
+    # If present in the user-submitted dictionary dr_programs,
+    # add sections for individual BA program overrides.
     for key, value in dr_programs.iteritems():
         if key not in defined_keys:
             config.add_section("DR Programs/"+key)
             for ba_key, ba_value in dr_programs[key].iteritems():
                 config.set("DR Programs/"+key, ba_key, ba_value)
 
-    with open("configuration_file.ini", 'w') as config_file:
+    with open("configuration_file.conf", 'w') as config_file:
         config.write(config_file)
 
 if __name__ == "__main__":

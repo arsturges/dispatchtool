@@ -8,7 +8,7 @@ import app_settings
 
 app = Flask(__name__)
 app.config.from_object(app_settings)
-app.debug = False # Set to false before deploying!
+app.debug = True# Set to false before deploying!
 
 @app.context_processor
 def utility_processor():
@@ -41,7 +41,8 @@ def get_started():
         lmp_file = request.files['lmps']
         dr_file = request.files['dr']
         load_file = request.files['load']
-        algorithm = request.form['algorithm']
+        dispatch_type = request.form['dispatch_type']
+        dispatch_trigger = request.form['dispatch_trigger']
         uuid_string = helper_methods.generateID()
 
         if lmp_file and dr_file and load_file and helper_methods.allowed_files(
@@ -59,17 +60,19 @@ def get_started():
             dr_file.save(os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename))
             load_file.save(os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename))
 
-            # run the algorithm using the three files you just saved to the server:
+            # get shorter names to pass to DRD module:
             lmp_path = os.path.join(app.config['UPLOAD_FOLDER'], lmp_server_filename)
             dr_path = os.path.join(app.config['UPLOAD_FOLDER'], dr_server_filename)
             load_path = os.path.join(app.config['UPLOAD_FOLDER'], load_server_filename)
             
-            try:
-                mw_dispatch_fn, prices_dispatch_fn = helper_methods.run_dr_dispatch(
-                dr_path,
-                lmp_path,
-                load_path,
-                algorithm)
+            # run the algorithm using the three files you just saved to the server:
+            #try:
+            helper_methods.run_dr_dispatch(dr_path,
+                                          lmp_path, 
+                                          load_path, 
+                                          dispatch_type, 
+                                          dispatch_trigger)
+            """
             except:
                 return render_template(
                     'get_started.html',
@@ -77,11 +80,12 @@ def get_started():
                     error = "The back end returned a parsing error. \
                         This probably means that one or more of the files \
                         you submitted isn't formatted correctly.")
+            """
             return render_template(
                 'confirm_files.html',
                 title="Confirm Files Submission",
-                mw_dispatch_fn=os.path.basename(mw_dispatch_fn),
-                prices_dispatch_fn = os.path.basename(prices_dispatch_fn))
+                mw_dispatch_fn="andrew",#os.path.basename(mw_dispatch_fn),
+                prices_dispatch_fn = "bob") #os.path.basename(prices_dispatch_fn))
         else:
             error = "The program requires all three files to be present, and all \
                 three files must be of type 'text' or 'csv'."

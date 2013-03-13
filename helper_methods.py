@@ -11,50 +11,58 @@ import DRD
 import write_config_file
 
 def generateID():
-     return "ID_" + str(uuid.uuid1().int)
+     return str(uuid.uuid1().int)[:5]
 
 def run_dr_dispatch(
     reference_dr_filename,
     lmp_filename,
     energy_load_data_filename,
-    algorithm):
+    dispatch_type,
+    dispatch_trigger):
 
+    print "Entering run_dr_dispatch" 
     user_id = generateID()
     output_dir = os.path.join(parent_directory_to_this_file, 'user_results')
 
-    # These three inputs are provided by the user, although the LMP
-    # filename (the prices) may or may not be provided by the user.
-    prog_input = {}
-    prog_input["ReferenceDR_FileName"] = reference_dr_filename 
-    prog_input["LMP_FileName"] = lmp_filename 
-    prog_input["EnergyLoadData_FileName"] = energy_load_data_filename
-    prog_input["OutputDirectory"] = output_dir 
-    prog_input["OutputName"] = user_id
-    prog_input["DispatchAlgorithm"] = algorithm
+    input_ = {
+        "Strict": 3, 
+        "DR_Availability_File_Name": reference_dr_filename,
+        "Prices_File_Name": lmp_filename,
+        "Demand_File_Name": energy_load_data_filename}
 
-    ba_input = {}
-    ba_input["CPP_Event"]= 4
-    ba_input["DLC_Event"] = 5
-    ba_input["LCR_Event"] = 6
-    ba_input["NumberEvents"] = 10
-    #ba_input["Number_CPP_Events"] = 5
+    output = {
+        "Directory": "/home/andy/dispatchtool/user_results/", 
+        # Addy, can it just 'return' two files instead of writing them somewhere?
+        "Name": dispatch_type + "_" + dispatch_trigger + "_" + user_id + "_", 
+        # filenames prefix, e.g. "PeakBlock_ExpectedDemandSavings_49582_"
+        "Make_Graphs": False}
 
-    # This is how additional information will be added. Add this section:
-    #ba_input["BA"] = {}
-    #
-    # For each BA to overwrite, add a dictionary with it.
-    #ba_input["BA"]["AESO"] = {}
-    #ba_input["BA"]["AESO"]["Number_CPP_Events"] = "10"
+    dispatch_configuration = {
+        #"Dispatch_Name": "Original", 
+        # Addy should this be deleted, or is it still used?
+        "Dispatch_Type": dispatch_type, # "PeakBlock"; 'Flexible'; 'PeriodBlock'
+        "Dispatch_Trigger": dispatch_trigger 
+        # "ExpectedPriceSavings"; ExpectedDemandSavings; Demand; Price
+        }
+
+    dr_programs = {
+        "P_Event_Length": 4,
+        "L_Event_Length": 4,
+        "I_Event_Length": 4,
+        "R_Event_Length": 4,
+        "P_Number_Events": 2,
+        "L_Number_Events": 2,
+        "I_Number_Events": 2,
+        "R_Number_Events": 2,
+        "PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
+        }
 
     configuration_file_path = os.path.join(
         parent_directory_to_this_file, 
-        'configuration_file.ini')
-    write_config_file.writeConfigFile(configuration_file_path, prog_input, ba_input)
-    megawatts_dispatch_fn, prices_dispatch_fn = DRD.dispatchDR(configuration_file_path) 
-
-    print megawatts_dispatch_fn
-    print prices_dispatch_fn
-    return megawatts_dispatch_fn, prices_dispatch_fn
+        'configuration_file.conf')
+    write_config_file.writeConfigFile(input_, output, dispatch_configuration, dr_programs)
+    conf = DRD.Configuration.getConfiguration(configuration_file_path)
+    DRD.bin.dispatchDR(conf) 
 
 def allowed_files(allowed_extensions, *filenames):
     ''' Takes an arbitrary number of filenames and returns true if all of their
@@ -80,8 +88,7 @@ def allowed_files(allowed_extensions, *filenames):
 
 if __name__ == "__main__":
     run_dr_dispatch(
-        "/home/andrew/dr_dispatch/data/WECC_Common Case Reference DR.csv",
-        "/home/andrew/dr_dispatch/data/WECC_Common Case LMPs_20120130.csv",
-        "/home/andrew/dr_dispatch/data/WECC_Hourly Energy Load.csv",
-        "Inflexible"
+        "/home/andrew/dr_dispatch/examples/Debug_DR_Levels.csv",
+        "/home/andrew/dr_dispatch/examples/lmp_data.csv",
+        "/home/andrew/dr_dispatch/examples/WECC_Hourly Energy Load.csv"
         )
