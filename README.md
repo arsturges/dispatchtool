@@ -11,7 +11,7 @@ Installation:
 * $ cd dispatchtool
 * $ python dispatchtool.py
 
-* To deploy on server:
+To deploy on server:
 * $ cd /var/www/dispatchtool
 * $ git pull
 * $ chown -R ../dispatchtool/ www-var
