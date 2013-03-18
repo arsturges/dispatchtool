@@ -14,7 +14,7 @@ Installation:
 To deploy on server:
 * $ cd /var/www/dispatchtool
 * $ git pull
-* $ chown -R ../dispatchtool/ www-var
+* $ chown -R ../dispatchtool/ www-data
 * $ # make sure debug is set to False!
 * $ # make sure secret.py exists
 * $ sudo /etc/init.d/apache2 restart
