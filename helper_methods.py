@@ -6,7 +6,8 @@ parent_directory_to_this_file = os.path.dirname(path_to_this_file)
 shared_root = os.path.dirname(parent_directory_to_this_file)
 path_to_DRD_module = os.path.join(shared_root, 'dr_dispatch', 'src')
 
-logging.basicConfig(filename='dispatchtool.log',level=logging.DEBUG)
+log_file_path = os.path.join(parent_directory_to_this_file, 'dispatchtool.log')
+logging.basicConfig(filename=log_file_path, level=logging.DEBUG)
 if path_to_DRD_module not in sys.path:
     sys.path.insert(0,path_to_DRD_module)
 logging.debug("sys.path: " + str(sys.path))
