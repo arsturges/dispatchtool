@@ -10,7 +10,8 @@ generate these input dictionaries exactly as they appear here.
 import ConfigParser
 import os
 
-present_directory = os.path.abspath('.')
+path_to_this_file = os.path.abspath(__file__)
+present_directory = os.path.dirname(path_to_this_file)
 
 input_ = {
     "Strict": 3, 
@@ -96,7 +97,8 @@ def writeConfigFile(
             for ba_key, ba_value in dr_programs[key].iteritems():
                 config.set("DR Programs/"+key, ba_key, ba_value)
 
-    with open("configuration_file.conf", 'w') as config_file:
+    config_file_path = os.path.join(present_directory, 'configuration_file.conf')
+    with open(config_file_path, 'w') as config_file:
         config.write(config_file)
 
 if __name__ == "__main__":
