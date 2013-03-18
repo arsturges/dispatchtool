@@ -9,7 +9,6 @@ path_to_DRD_module = os.path.join(shared_root, 'dr_dispatch', 'src')
 logging.basicConfig(filename='dispatchtool.log',level=logging.DEBUG)
 if path_to_DRD_module not in sys.path:
     sys.path.insert(0,path_to_DRD_module)
-
 logging.debug("sys.path: " + str(sys.path))
 import DRD
 import write_config_file
@@ -26,7 +25,7 @@ def run_dr_dispatch(
 
     print "Entering run_dr_dispatch" 
     user_id = generateID()
-    output_dir = os.path.join(os.path.abspath(__file__), 'user_results')
+    output_dir = os.path.join(parent_directory_to_this_file, 'user_results')
 
     input_ = {
         "Strict": 3, 
@@ -35,7 +34,7 @@ def run_dr_dispatch(
         "Demand_File_Name": energy_load_data_filename}
 
     output = {
-        "Directory": os.path.join(os.path.abspath('.'), "user_results"), 
+        "Directory": output_dir, 
         # Addy, can it just 'return' two files instead of writing them somewhere?
         "Name": dispatch_type + "_" + dispatch_trigger + "_" + user_id + "_", 
         # filenames prefix, e.g. "PeakBlock_ExpectedDemandSavings_49582_"
