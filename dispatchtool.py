@@ -9,7 +9,7 @@ import DRD
 
 app = Flask(__name__)
 app.config.from_object(app_settings)
-app.debug = True# Set to false before deploying!
+app.debug = False # Set to false before deploying!
 
 @app.context_processor
 def utility_processor():

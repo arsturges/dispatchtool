@@ -10,7 +10,7 @@ log_file_path = os.path.join(parent_directory_to_this_file, 'dispatchtool.log')
 logging.basicConfig(filename=log_file_path, level=logging.DEBUG)
 if path_to_DRD_module not in sys.path:
     sys.path.insert(0,path_to_DRD_module)
-logging.debug("sys.path: " + str(sys.path))
+
 import DRD
 import write_config_file
 
