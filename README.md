@@ -5,17 +5,18 @@ Nathan Addy
 Andrew Sturges
 
 Installation:
-* $ git clone https://github.com/arsturges/dispatchtool.git
-* $ git clone <path to Nathan`s attila server to clone dr_dispatch>
-* $ sudo pip install flask
-* $ cd dispatchtool
-* $ python dispatchtool.py
+    $ git clone https://github.com/arsturges/dispatchtool.git
+    $ git clone <path to Nathan`s attila server to clone dr_dispatch>
+    $ sudo pip install flask
+    $ cd dispatchtool
+    $ python dispatchtool.py
 
 To deploy on server:
 * $ cd /var/www/dispatchtool
 * $ git pull
 * $ chown -R www-data ../dispatchtool/
 * $ chown -R www-data ../dr_dispatch/
+* $ # chmod folders to 755, files to 644
 * $ # make sure debug is set to False!
 * $ # make sure secret.py exists
 * $ sudo /etc/init.d/apache2 restart
