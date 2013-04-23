@@ -9,10 +9,10 @@ Energy Load: {{ request.files['load'].filename if request.files else 'no file up
 Algorithm: {{ request.form['algorithm'] }}
 </pre>
 <p>Your results are ready. Click below to download.</p>
-<form method='link' action='download_file/{{mw_dispatch_fn}}'>
+<form method='link' action='download_results/{{mw_dispatch_fn}}'>
     <input type='submit' value='Download Megawatts of Dispatch File'>
 </form>
-<form method='link' action='download_file/{{prices_dispatch_fn}}'>
+<form method='link' action='download_results/{{prices_dispatch_fn}}'>
     <input type='submit' value='Download Dispatch Prices File'>
 </form>
 {{megawatts_dispatch_fn}}

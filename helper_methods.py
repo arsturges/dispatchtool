@@ -1,6 +1,8 @@
 import uuid
 import logging
 import os.path, sys
+import csv
+from datetime import date, timedelta
 path_to_this_file = os.path.abspath(__file__)
 parent_directory_to_this_file = os.path.dirname(path_to_this_file)
 shared_root = os.path.dirname(parent_directory_to_this_file)
@@ -91,6 +93,70 @@ def allowed_files(allowed_extensions, *filenames):
         return False
     else:
         return True
+
+def parse_template_form_data(form_data):
+    bas = []
+    dr_programs = []
+    for key in form_data.keys():
+        if key[:2] == 'ba':
+            if len(form_data[key]) > 0:
+                bas.append(str(form_data[key]))
+        if key[:10] == 'dr_program':
+            if len(form_data[key]) > 0:
+                dr_programs.append(str(form_data[key]))
+    return bas, dr_programs
+
+def create_templates(form_data):
+    bas, dr_programs = parse_template_form_data(form_data)
+    user_id = generateID()
+    output_dir = os.path.join(parent_directory_to_this_file, 'csv_templates')
+    dr_levels_filename = user_id + "dr_levels_template.csv"
+    dr_levels_filepath = os.path.join(output_dir, dr_levels_filename)
+    with open(dr_levels_filepath, 'wb') as f:
+        writer = csv.writer(f)
+        header = ['DSM','BA','Jan','Feb','Mar','Apr','May','Jun','Jul',
+            'Aug','Sep','Oct','Nov','Dec']
+        writer.writerow(header)
+        for dr_program in dr_programs:
+            for ba in bas:
+                row = [dr_program, ba]
+                writer.writerow(row)
+
+    lmp_filename = user_id + "lmp_template.csv"
+    lmp_filepath = os.path.join(output_dir, lmp_filename)
+    with open(lmp_filepath, 'wb') as f:
+        writer = csv.writer(f)
+        header = ['Date', 'Hour of Day']
+        for ba in bas:
+            header.append(ba)
+        writer.writerow(header)
+        for day_of_year in range(365):
+            date_object = date(2022,1,1) + timedelta(day_of_year)
+            for hour_of_day in range(1,25):
+                writer.writerow([
+                    date_object.strftime('%m/%d/%Y'),
+                    hour_of_day])
+
+
+    energy_load_filename = user_id + "energy_load_template.csv"
+    energy_load_filepath = os.path.join(output_dir, energy_load_filename)
+    with open(energy_load_filepath, 'wb') as f:
+        writer = csv.writer(f)
+        header = ['Date', 'Hour of Day', 'Hour of Year']
+        for ba in bas:
+            header.append(ba)
+        writer.writerow(header)
+        hour_of_year = 1
+        for day_of_year in range(365):
+            date_object = date(2022,1,1) + timedelta(day_of_year)
+            for hour_of_day in range(1,25):
+                writer.writerow([
+                    date_object.strftime('%m/%d/%Y'),
+                    hour_of_day,
+                    hour_of_year])
+                hour_of_year += 1
+
+    return dr_levels_filename, lmp_filename, energy_load_filename
 
 if __name__ == "__main__":
     run_dr_dispatch(

@@ -1,3 +1,4 @@
 *.py[co]
 user_results/*
 user_uploads/*
+csv_templates/*

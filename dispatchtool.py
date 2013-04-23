@@ -9,7 +9,7 @@ import DRD
 
 app = Flask(__name__)
 app.config.from_object(app_settings)
-app.debug = False # Set to false before deploying!
+app.debug = True # Set to false before deploying!
 
 @app.context_processor
 def utility_processor():
@@ -91,15 +91,51 @@ def get_started():
     else:
         return render_template('get_started.html', title="Get Started", error=error)
 
-@app.route('/download_file/<filename>')
+@app.route('/download_results/<filename>')
 @authenticate
-def download_file(filename):
-    return send_from_directory(app.config['DOWNLOAD_FOLDER'], filename)
+def download_results(filename):
+    return send_from_directory(app.config['RESULTS_DOWNLOAD_FOLDER'], filename)
+
+@app.route('/download_templates/<filename>')
+@authenticate
+def download_templates(filename):
+    return send_from_directory(app.config['TEMPLATES_DOWNLOAD_FOLDER'], filename)
 
 @app.route('/confirm_files')
 @authenticate
 def confirm_files(lmps, dr, load):
     return render_template('confirm_files.html', title = "Confirm Files")
+
+@app.route('/template_generator', methods=['GET', 'POST'])
+@authenticate
+def template_generator():
+    if request.method == 'POST':
+        form_data = request.form
+        bas, dr_programs = helper_methods.parse_template_form_data(form_data)
+        dr_levels_filename, lmp_filename, energy_load_filename = \
+            helper_methods.create_templates(form_data)
+        return render_template(
+            'template_instructions.html',
+            title="Template Instructions",
+            bas = bas,
+            dr_programs = dr_programs,
+            dr_levels_filename = dr_levels_filename,
+            lmp_filename = lmp_filename,
+            energy_load_filename = energy_load_filename)
+         
+    else:
+        list_obj = range(11)
+        list_obj = map(str, list_obj)
+        return render_template(
+            'template_generator.html',
+            title = "Template Generator",
+            ba_field_names=list_obj) 
+
+@app.route('/template_instructions')
+@authenticate
+def template_instructions():
+    return render_template('template_instructions.html', title="Template Instructions")
+
 
 @app.route('/documentation')
 @authenticate
