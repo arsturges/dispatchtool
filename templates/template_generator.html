@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block main %}
+<h2>Generate Templates for Input Files</h2>
+{% if error %}
+    <div class='alert alert-error'>
+        <strong>Error:</strong> {{error}}
+    </div>
+{% endif %}
+<p>This page will help you generate three templates which you can populate
+with your data. This will ensure that the template files conform to the
+requirements of the Dispatch Tool's back-end calculator.</p>
+<p>After you generate the templates and populate them with your data,
+return to the Get Started page to continue with the upload.</p>
+<form action="" method='post' enctype=multipart/form-data>
+    <legend>Enter Balancing Authorities</legend>
+    <p>Enter the names of each balancing authority included in your data.</p>
+    {% for i in ba_field_names %}
+        <p>{{i}}: <input type="text" name={{"ba_"+i}}></p>
+    {% endfor %}
+    <fieldset>
+        <legend>Select Available Demand Response Programs</legend>
+        <span class="help-block">Demand response programs determine
+        how the tool dispatches available demand response resources.</span>
+        <input type="checkbox" name='dr_program_L' value='L'>L</br>
+        <input type="checkbox" name='dr_program_I' value='I'>I</br>
+        <input type="checkbox" name='dr_program_P' value='P'>P</br>
+        <input type="checkbox" name='dr_program_R' value='R'>R</br>
+    </fieldset>
+    <br />
+    <input type='submit' value="Generate Input Templates" class="btn btn-primary">
+</form>
+{% endblock %}

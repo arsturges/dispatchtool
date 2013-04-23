@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block main %}
+<h2>Template Instructions</h2>
+<p>This section describes how to use the provided templates.</p>
+<h3>Balancing Authorities</h3>
+<p>You specified the following balancing authorities:</p>
+<ul>
+    {% for ba in bas %}
+    <li>{{ ba }}</li>
+    {% endfor %}
+</ul>
+<h3>Demand Response Programs</h3>
+<p>You specified the following demand response programs:</p>
+<ul>
+    {% for dr_program in dr_programs %}
+    <li>{{ dr_program }}</li>
+    {% endfor %}
+</ul>
+
+<p>Click below to download your input templates.</p>
+<form method='link' action='download_templates/{{dr_levels_filename}}'>
+    <input type='submit' value='Download DR Levels Tempalte'>
+    <p>Data entered into this template should be in units of megawatts.</p>
+</form>
+<form method='link' action='download_templates/{{lmp_filename}}'>
+    <input type='submit' value='Download LMPs Template'>
+    <p>Data entered into this template should be in units of $/megawatt.</p>
+</form>
+<form method='link' action='download_templates/{{energy_load_filename}}'>
+    <input type='submit' value='Download Hourly Load Template'>
+    <p>Data entered into this template should be in units of megawatts.</p>
+</form>
+<p>Download the three file templates and insert your data in the units specified. When you are finished, return to the 'Get Started' page to upload your completed templates.</p>
+<p><a class="btn btn-success btn-large" href="/get_started">Return To File Uploads &raquo;</a></p>
+{% endblock %}
