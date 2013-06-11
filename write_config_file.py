@@ -38,15 +38,15 @@ dispatch_configuration = {
     }
 
 dr_programs = {
-    "P_Event_Length": 4,
+    "P_Event_Length": 6,
     "L_Event_Length": 4,
-    "I_Event_Length": 4,
-    "R_Event_Length": 4,
-    "P_Number_Events": 2,
-    "L_Number_Events": 2,
-    "I_Number_Events": 2,
-    "R_Number_Events": 2,
-    "PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
+    "I_Event_Length": 2,
+    "R_Event_Length": 5,
+    "P_Number_Events": 10,
+    "L_Number_Events": 10,
+    "I_Number_Events": 10,
+    "R_Number_Events": 10#,
+    #"PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
     }
 
 def writeConfigFile(
