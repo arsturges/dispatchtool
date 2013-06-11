@@ -13,41 +13,6 @@ import os
 path_to_this_file = os.path.abspath(__file__)
 present_directory = os.path.dirname(path_to_this_file)
 
-input_ = {
-    "Strict": 3, 
-    "DR_Availability_File_Name": '/home/andy/dr_dispatch/examples/Debug_DR_Levels.csv',
-    "Prices_File_Name": "/home/andy/dr_dispatch/examples/lmp_data.csv",
-    "Demand_File_Name": "/home/andy/dr_dispatch/examples/WECC_Hourly Energy Load.csv"}
-
-output = {
-    "Directory": os.path.join(present_directory, 'user_results'), # Addy, can it just 'return' two files instead of writing them somewhere?
-    "Name": "FLEXIBLE_NONINTERRUPT", # Filename prefix.
-    "Make_Graphs": True}
-
-dispatch_configuration = {
-    #"Dispatch_Name": "Original", 
-    # Addy is this needed? Seems like it's either 'dispatch_name' OR the two triggers.
-    # If so, what are the names? Or should we just remove this option?
-    "Dispatch_Type": "PeakBlock",
-    "Dispatch_Type": "Flexible",
-    "Dispatch_Type": "PeriodBlock",
-    "Dispatch_Trigger": "ExpectedPriceSavings",
-    "Dispatch_Trigger": "ExpectedDemandSavings",
-    "Dispatch_Trigger": "Demand",
-    "Dispatch_Trigger": "Price"
-    }
-
-dr_programs = {
-    "P_Event_Length": 6,
-    "L_Event_Length": 4,
-    "I_Event_Length": 2,
-    "R_Event_Length": 5,
-    "P_Number_Events": 10,
-    "L_Number_Events": 10,
-    "I_Number_Events": 10,
-    "R_Number_Events": 10#,
-    #"PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
-    }
 
 def writeConfigFile(
                       input_,
@@ -102,4 +67,75 @@ def writeConfigFile(
         config.write(config_file)
 
 if __name__ == "__main__":
+    input_ = {
+        "Strict": 3, 
+        "DR_Availability_File_Name": '/home/andy/dr_dispatch/examples/Debug_DR_Levels.csv',
+        "Prices_File_Name": "/home/andy/dr_dispatch/examples/lmp_data.csv",
+        "Demand_File_Name": "/home/andy/dr_dispatch/examples/WECC_Hourly Energy Load.csv"}
+
+    output = {
+        "Directory": os.path.join(present_directory, 'user_results'), # Addy, can it just 'return' two files instead of writing them somewhere?
+        "Name": "FLEXIBLE_NONINTERRUPT", # Filename prefix.
+        "Make_Graphs": True}
+
+    dispatch_configuration = {
+        #"Dispatch_Name": "Original", 
+        # Addy is this needed? Seems like it's either 'dispatch_name' OR the two triggers.
+        # If so, what are the names? Or should we just remove this option?
+        "Dispatch_Type": "PeakBlock",
+        "Dispatch_Type": "Flexible",
+        "Dispatch_Type": "PeriodBlock",
+        "Dispatch_Trigger": "ExpectedPriceSavings",
+        "Dispatch_Trigger": "ExpectedDemandSavings",
+        "Dispatch_Trigger": "Demand",
+        "Dispatch_Trigger": "Price"
+        }
+
+    dr_programs = {
+        "P_Event_Length": 6,
+        "L_Event_Length": 4,
+        "I_Event_Length": 2,
+        "R_Event_Length": 5,
+        "P_Number_Events": 10,
+        "L_Number_Events": 10,
+        "I_Number_Events": 10,
+        "R_Number_Events": 10#,
+        #"PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
+        }
+input_ = {
+    "Strict": 3, 
+    "DR_Availability_File_Name": '/home/andy/dr_dispatch/examples/Debug_DR_Levels.csv',
+    "Prices_File_Name": "/home/andy/dr_dispatch/examples/lmp_data.csv",
+    "Demand_File_Name": "/home/andy/dr_dispatch/examples/WECC_Hourly Energy Load.csv"}
+
+output = {
+    "Directory": os.path.join(present_directory, 'user_results'), # Addy, can it just 'return' two files instead of writing them somewhere?
+    "Name": "FLEXIBLE_NONINTERRUPT", # Filename prefix.
+    "Make_Graphs": True}
+
+dispatch_configuration = {
+    #"Dispatch_Name": "Original", 
+    # Addy is this needed? Seems like it's either 'dispatch_name' OR the two triggers.
+    # If so, what are the names? Or should we just remove this option?
+    "Dispatch_Type": "PeakBlock",
+    "Dispatch_Type": "Flexible",
+    "Dispatch_Type": "PeriodBlock",
+    "Dispatch_Trigger": "ExpectedPriceSavings",
+    "Dispatch_Trigger": "ExpectedDemandSavings",
+    "Dispatch_Trigger": "Demand",
+    "Dispatch_Trigger": "Price"
+    }
+
+dr_programs = {
+    "P_Event_Length": 6,
+    "L_Event_Length": 4,
+    "I_Event_Length": 2,
+    "R_Event_Length": 5,
+    "P_Number_Events": 10,
+    "L_Number_Events": 10,
+    "I_Number_Events": 10,
+    "R_Number_Events": 10#,
+    #"PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
+    }
+
     writeConfigFile(input_, output, dispatch_configuration, dr_programs)
