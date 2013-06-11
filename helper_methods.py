@@ -24,7 +24,8 @@ def run_dr_dispatch(
     lmp_filename,
     energy_load_data_filename,
     dispatch_type,
-    dispatch_trigger):
+    dispatch_trigger,
+    dr_programs):
 
     print "Entering run_dr_dispatch" 
     user_id = generateID()
@@ -49,18 +50,6 @@ def run_dr_dispatch(
         "Dispatch_Type": dispatch_type, # "PeakBlock"; 'Flexible'; 'PeriodBlock'
         "Dispatch_Trigger": dispatch_trigger 
         # "ExpectedPriceSavings"; ExpectedDemandSavings; Demand; Price
-        }
-
-    dr_programs = {
-        "P_Event_Length": 4,
-        "L_Event_Length": 4,
-        "I_Event_Length": 4,
-        "R_Event_Length": 4,
-        "P_Number_Events": 2,
-        "L_Number_Events": 2,
-        "I_Number_Events": 2,
-        "R_Number_Events": 2,
-        "PSCO": {"I_Event_Length": 8, "I_Number_Events": 2}
         }
 
     configuration_file_path = os.path.join(

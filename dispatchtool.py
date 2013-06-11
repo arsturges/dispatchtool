@@ -45,6 +45,16 @@ def get_started():
         dispatch_type = request.form['dispatch_type']
         dispatch_trigger = request.form['dispatch_trigger']
         uuid_string = helper_methods.generateID()
+        dr_programs = {
+            "P_Event_Length": request.form['P_Event_Length'],
+            "L_Event_Length": request.form['L_Event_Length'],
+            "I_Event_Length": request.form['I_Event_Length'],
+            "R_Event_Length": request.form['R_Event_Length'],
+            "P_Number_Events": request.form['P_Number_Events'],
+            "L_Number_Events": request.form['L_Number_Events'],
+            "I_Number_Events": request.form['I_Number_Events'],
+            "R_Number_Events": request.form['R_Number_Events']
+            }
 
         if lmp_file and dr_file and load_file and helper_methods.allowed_files(
                 app.config['ALLOWED_EXTENSIONS'],
@@ -73,7 +83,8 @@ def get_started():
                     lmp_path, 
                     load_path, 
                     dispatch_type, 
-                    dispatch_trigger)
+                    dispatch_trigger,
+                    dr_programs)
             except (OSError, NameError, DRD.parsing.ParsingException) as e:
                 return render_template(
                     'get_started.html',

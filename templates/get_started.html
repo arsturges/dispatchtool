@@ -7,11 +7,13 @@
     </div>
 {% endif %}
 <form action="" method='post' enctype=multipart/form-data>
-    <legend>Upload Input Files</legend>
-    <p>Input files must be in a specific format. A <a href="/template_generator">template generator</a> is available..</p>
-    <p>LMPs:<input type=file name=lmps></p>
-    <p>DR:<input type=file name=dr></p>
-    <p>Energy Load:<input type=file name=load></p>
+    <fieldset>
+        <legend>Upload Input Files</legend>
+        <p>Input files must be in a specific format. A <a href="/template_generator">template generator</a> is available..</p>
+        <p>LMPs:<input type=file name=lmps></p>
+        <p>DR:<input type=file name=dr></p>
+        <p>Energy Load:<input type=file name=load></p>
+    </fieldset>
     <fieldset>
         <legend>Choose algorithm</legend>
         <span class="help-block">Algorithm choice determines how the
@@ -29,6 +31,112 @@
             <option value='Demand'>Demand</option>
             <option value='Price'>Price</option>
         </select>
+    </fieldset>
+    <fieldset>
+        <legend>Set DR Program Constraints</legend>
+        <span class="help-block">These constraints will apply to all balancing authorities.</span>
+        <div class="row">
+            <div class="span4">
+                <p>Length of P event</p>
+                <select name='P_Event_Length'>
+                    <option value=1>1 hour</option>
+                    <option value=2>2 hours</option>
+                    <option value=3>3 hours</option>
+                    <option value=4 selected="selected">4 hours</option>
+                    <option value=5>5 hours</option>
+                    <option value=6>6 hours</option>
+                    <option value=7>7 hours</option>
+                    <option value=8>8 hours</option>
+                </select>
+                <p>Length of L event</p>
+                <select name='L_Event_Length'>
+                    <option value=1>1 hour</option>
+                    <option value=2>2 hours</option>
+                    <option value=3>3 hours</option>
+                    <option value=4 selected="selected">4 hours</option>
+                    <option value=5>5 hours</option>
+                    <option value=6>6 hours</option>
+                    <option value=7>7 hours</option>
+                    <option value=8>8 hours</option>
+                </select>
+                <p>Length of I event</p>
+                <select name='I_Event_Length'>
+                    <option value=1>1 hour</option>
+                    <option value=2>2 hours</option>
+                    <option value=3>3 hours</option>
+                    <option value=4 selected="selected">4 hours</option>
+                    <option value=5>5 hours</option>
+                    <option value=6>6 hours</option>
+                    <option value=7>7 hours</option>
+                    <option value=8>8 hours</option>
+                </select>
+                <p>Length of R event</p>
+                <select name='R_Event_Length'>
+                    <option value=1>1 hour</option>
+                    <option value=2>2 hours</option>
+                    <option value=3>3 hours</option>
+                    <option value=4 selected="selected">4 hours</option>
+                    <option value=5>5 hours</option>
+                    <option value=6>6 hours</option>
+                    <option value=7>7 hours</option>
+                    <option value=8>8 hours</option>
+                </select>
+            </div>
+            <div class="span6">
+                <p>Number of P events</p>
+                <select name='P_Number_Events'>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8 selected="selected">8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                </select>
+                <p>Number of L events</p>
+                <select name='L_Number_Events'>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8 selected="selected">8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                </select>
+                <p>Number of I events</p>
+                <select name='I_Number_Events'>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8 selected="selected">8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                </select>
+                <p>Number of R events</p>
+                <select name='R_Number_Events'>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8 selected="selected">8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                </select>
+            </div> <!-- span6 -->
+        </div><!-- row -->
     </fieldset>
     <input type='submit' value="Calculate Demand Response" class="btn btn-primary">
 </form>
