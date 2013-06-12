@@ -85,7 +85,7 @@ def get_started():
                     dispatch_type, 
                     dispatch_trigger,
                     dr_programs)
-            except (OSError, NameError, DRD.parsing.ParsingException) as e:
+            except (OSError, NameError, KeyError, DRD.parsing.ParsingException) as e:
                 return render_template(
                     'get_started.html',
                     title='Get Started',
